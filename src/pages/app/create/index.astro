@@ -1,0 +1,26 @@
+---
+import FormCreate from "@components/app/create/FormCreate";
+import AppLayout from "@layouts/AppLayout.astro";
+
+if (!Astro.cookies.has("token")) return Astro.redirect("/login");
+const token = Astro.cookies.get("token");
+const typesRes = await fetch(`${import.meta.env.API_URL}/hook/types`, {
+  headers: {
+    authorization: `Bearer ${token.value}`,
+  },
+});
+
+// if (typesRes.ok) return Astro.redirect("/login")
+const hookTypes = await typesRes.json();
+---
+
+<AppLayout>
+  <div class="w-full flex justify-center">
+    <FormCreate
+      client:load
+      hookTypes={hookTypes}
+      token={token.value!}
+      requestUrl={`${import.meta.env.API_URL}/form`}
+    />
+  </div>
+</AppLayout>

@@ -1,0 +1,25 @@
+---
+import Header from "../components/Header.astro";
+import Layout from "./Layout.astro";
+
+export interface Props {
+  title?: string;
+  theme?: string;
+}
+
+const { title = "FormHub", theme = "dark" } = Astro.props;
+
+// if (!Astro.cookies.has("jwt")) return Astro.redirect("/login")
+---
+
+<Layout title={title} theme={theme}>
+  <Header app slot="header" />
+  <div class="w-full flex flex-col lg:flex-row">
+    <!-- <div class="w-full lg:w-1/3 order-last lg:order-first">
+            <p>menu here</p>
+        </div> -->
+    <div class="w-full xl:container xl:mx-auto">
+      <slot />
+    </div>
+  </div>
+</Layout>

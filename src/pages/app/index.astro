@@ -1,0 +1,36 @@
+---
+import FormCard from "@components/app/index/FormCard.astro";
+import StatBlock from "@components/app/index/StatBlock.astro";
+import AppLayout from "@layouts/AppLayout.astro";
+import type { Form } from "@models/Form.model";
+const token = Astro.cookies.get("token");
+const theme = Astro.cookies.get("theme")?.value;
+const formRes = await fetch(`${import.meta.env.API_URL}/form`, {
+  headers: {
+    authorization: `Bearer ${token.value}`,
+  },
+});
+
+if (!formRes.ok) return Astro.redirect("/");
+
+const forms: Array<Form> = await formRes.json();
+---
+
+<AppLayout theme={theme}>
+  <div class="w-full flex flex-col">
+    <div class="flex justify-evenly">
+      <StatBlock
+        title={`form${forms.length > 1 ? "s" : ""}`}
+        value={forms.length}
+      />
+      <StatBlock title="form hits" value={40} />
+      <StatBlock
+        title="hooks"
+        value={forms.reduce((prev, curr) => prev + curr.webhooks.length, 0)}
+      />
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
+      {forms.map((e) => <FormCard form={e} />)}
+    </div>
+  </div>
+</AppLayout>

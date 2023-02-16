@@ -1,0 +1,13 @@
+---
+export interface Props {
+    title: string;
+    value: number;
+}
+
+const {title, value} = Astro.props
+---
+
+<div class="flex flex-col items-center justify-center w-48 h-48 shadow-xl rounded-full space-y-4 transition-all hover:shadow-2xl">
+    <span class="font-bold text-3xl">{value}</span>
+    <p class="text-xl capitalize">{title}</p>
+</div>

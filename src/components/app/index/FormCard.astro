@@ -1,0 +1,41 @@
+---
+import type { Form } from "@models/Form.model";
+import { Icon } from "astro-icon";
+export interface Props {
+  form: Form;
+}
+const { form } = Astro.props;
+---
+
+<div
+  class="w-96 h-48 shadow-md hover:shadow-lg hover:-translate-y-2 transition-all flex flex-col justify-between"
+>
+  <h2 class="text-xl font-bolder">
+    {form.name}
+  </h2>
+  <div class="flex justify-between w-full">
+    <div>
+      <button
+        class="copy-button"
+        data-copy-target={`${import.meta.env.API_URL}/form/trigger/${form.id}`}
+        ><Icon name="mdi:content-copy" /></button
+      >
+      <button><Icon name="mdi:bin" /></button>
+    </div>
+    <a href={`/app/form/${form.id}`}>More Info</a>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll(".copy-button").forEach((e) => {
+    e.addEventListener("click", async () => {
+      await navigator.clipboard.writeText(e.getAttribute("data-copy-target")!);
+    });
+  });
+</script>
+
+<style>
+  button {
+    @apply w-6 h-6;
+  }
+</style>

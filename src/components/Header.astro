@@ -1,0 +1,20 @@
+---
+export interface Props {
+    app?: boolean
+}
+
+const {app} = Astro.props
+---
+
+
+<header>
+    <div class="flex w-full justify-between px-4">
+        <a href={app ? "/app" : "/"}>FormHub</a>
+        <nav>
+            <ul class="flex space-x-4">
+                {!app && <li><a href="/register">Sign Up</a></li><li><a href="/login">Sign In</a></li>}
+                {app && <li><a href="/logout">Logout</a></li>}
+            </ul>
+        </nav>
+    </div>
+</header>
